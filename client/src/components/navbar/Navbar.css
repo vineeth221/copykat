@@ -1,0 +1,144 @@
+.nav-top{
+    z-index: 111;
+  }
+  .custom-height{
+    display: block;
+    height:55px;
+  }
+  .nav-set{
+    height:75px;
+    background: linear-gradient(#f9c597, #FFFFFF) !important;
+    /* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
+  }
+  div#nav-global-location-slot {
+    color: #fff;
+    display: block;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-size: 12px;
+}
+.pad-set{
+  margin: 0 20px;
+}
+.srm{
+    color: #f56e10;
+    font-weight: 800;
+}
+.footer-class{
+  background-color: rgb(249 246 242);
+}
+.search-bar{
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 40px;
+  border: 1px solid #222;
+  border-radius: 100px;
+  background-color: #fff;
+
+}
+.search-btn{
+  width: 111px;
+  height: 32px;
+  border-radius:100px;
+  margin-right: 4px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+.product-btn{
+  cursor: pointer;
+  height: 100%;
+
+  display: flex;
+  color: #222;
+  padding-left: 20px;
+}
+/* .testtt{
+  width: 20px;
+  height: 20px;
+} */
+.som{
+    color: #fff;
+    font-size: 12px;
+    padding:10px ;
+}
+:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: #d1d5db !important; /* Muted gray */
+}
+
+  /* Add a bottom line to the list items */
+  /* .flex.space-x-4 a::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 17px;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(115deg, #4fcf70, #fad648, #a767e5, #12bcfe, #44ce7b);
+    background-color: #6366f1;
+    transition: width 0.3s ease; 
+    border-radius: 50px;
+  } */
+  
+  /* Expand the bottom line when hovered */
+  /* .flex.space-x-4 a:hover::after {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+  } */
+  .set-height{
+    height: 75px;
+  }
+  
+  .custom-img {
+    width: 100px; /* Increase size */
+    height: auto; /* Maintain aspect ratio */
+    max-height: 80px; /* Ensure it doesn’t get too big */
+  }
+  
+  
+  span.logo-text {
+    color: #fff;
+    font-size: 17px;
+  }
+
+  #nav-main-head {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #0c1f5d;
+    color: #fff;
+    border-bottom: 1px solid #ddd;
+    font-size: 13px;
+  }
+  
+  .nav-left {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+  }
+  
+  .hm-icon-label {
+    margin-left: 5px;
+    font-size: 16px;
+  }
+  
+  #nav-xshop {
+    display: flex;
+    gap: 2rem;
+  }
+  
+  .nav-a:hover {
+    color: #fff;
+    
+  }
+  
+  
+  @media (max-width: 639px) {
+    .myBtn {
+      display: none;
+    }
+  }
