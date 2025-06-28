@@ -43,8 +43,8 @@ router.post("/create-order", async (req, res) => {
       {
         headers: {
           "Content-Type": "application/json",
-          "x-client-id": process.env.CASHFREE_CLIENT_ID,
-          "x-client-secret": process.env.CASHFREE_CLIENT_SECRET,          
+          "x-client-id": process.env.CSH_CLIENT,
+          "x-client-secret": process.env.CSH_CLIENT_SCT,          
           "x-api-version": "2022-09-01",
         },
       }
