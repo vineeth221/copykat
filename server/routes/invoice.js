@@ -1,16 +1,20 @@
-const express = require("express");
-const { v4: uuidv4 } = require("uuid");
-const { PDFDocument, StandardFonts, rgb } = require("pdf-lib");
-const fs = require("fs");
-const path = require("path");
-const axios = require("axios");
-const router = express.Router();
-const Cart = require("../models/Cart");
-const Order = require("../models/Order").default;
-const Customer = require("../models/Customer").default;
-// Fix __dirname for ESM
+import express from "express";
+import { v4 as uuidv4 } from "uuid";
+import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
+import fs from "fs";
+import path from "path";
+import axios from "axios";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+import Cart from "../models/Cart.js";
+import Order from "../models/Order.js";
+import Customer from "../models/Customer.js";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+const router = express.Router();
+
 // Create Order and Generate Invoice
 router.post("/create-order", async (req, res) => {
   const { customerEmail, items, totalAmount } = req.body;
@@ -332,4 +336,4 @@ router.delete("/cart/clear/:email", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
