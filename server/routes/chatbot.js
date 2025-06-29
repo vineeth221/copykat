@@ -1,6 +1,6 @@
 // routes/chatbot.js
 import express from "express";
-import faqs from "../Faqs.js";
+import { faqs } from "../Faqs.js";
 import stringSimilarity from "string-similarity";
 
 const router = express.Router();
