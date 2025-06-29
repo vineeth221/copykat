@@ -8,7 +8,9 @@ const router = express.Router();
 const Cart = require("../models/Cart");
 const Order = require("../models/Order").default;
 const Customer = require("../models/Customer").default;
-
+// Fix __dirname for ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 // Create Order and Generate Invoice
 router.post("/create-order", async (req, res) => {
   const { customerEmail, items, totalAmount } = req.body;
