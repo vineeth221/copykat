@@ -1,7 +1,9 @@
-const express = require("express");
+// routes/chatbot.js
+import express from "express";
+import faqs from "../Faqs.js";
+import stringSimilarity from "string-similarity";
+
 const router = express.Router();
-const faqs = require("../Faqs.js");
-const stringSimilarity = require("string-similarity");
 
 router.post("/chatbot", (req, res) => {
   const userQuestion = req.body.question.toLowerCase();
@@ -22,4 +24,5 @@ router.post("/chatbot", (req, res) => {
   }
 });
 
-module.exports = router;
+// ✅ Use export default so Server.js can import properly
+export default router;
