@@ -4,7 +4,7 @@ import axios from 'axios';
 
 // Fetch products from the backend
 export const fetchProducts = createAsyncThunk('products/fetchProducts', async () => {
-  const response = await axios.get(`${process.env.REACT_APP_API_URL}/products`);
+  const response = await axios.get('http://localhost:8005/products'); // Ensure this URL is correct
   return response.data; // Make sure this is an array of products
 });
 
@@ -23,8 +23,7 @@ const productSlice = createSlice({
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.loading = false;
-        state.products = action.payload.products;
-
+        state.products = action.payload.products; // Populate products
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.loading = false;
