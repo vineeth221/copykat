@@ -43,7 +43,7 @@ router.post("/create-order", async (req, res) => {
           customer_phone: "8919956147",
         },
         order_meta: {
-          return_url: "http://localhost:8006/checkout?order_id={order_id}&order_status={order_status}",
+          return_url: "https://copykat-git-main-vineeths-projects-6336d285.vercel.app/?order_id={order_id}&order_status={order_status}",
         },        
       },
       {
