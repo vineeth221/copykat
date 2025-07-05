@@ -14,7 +14,7 @@ const Listing = () => {
   const dispatch = useDispatch();
   const { products, loading: productsLoading, error } = useSelector((state) => state.products || {});
   const cartItems = useSelector((state) => state.cart.items);
-  const [filteredProducts, setFilteredProducts] = useState(products);
+  const [filteredProducts, setFilteredProducts] = useState([]); 
   const [brands, setBrands] = useState([]);
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [selectedPriceRange, setSelectedPriceRange] = useState([0, 100000]);
@@ -31,17 +31,18 @@ const Listing = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (Array.isArray(products) && products.length > 0) {
+    // FIX 2: Check if products exists and is array
+    if (products && Array.isArray(products)) {
       const uniqueBrands = [...new Set(products.map((product) => product.name))];
       setBrands(uniqueBrands);
-      setFilteredProducts(products);
+      setFilteredProducts(products); // Now setting a defined array
     }
   }, [products]);
-  
 
   useEffect(() => {
-    let filtered = products;
+    if (!Array.isArray(products)) return;
 
+    let filtered = products;
     // Apply filters
     if (selectedBrands.length > 0) {
       filtered = filtered.filter((product) => selectedBrands.includes(product.name));
@@ -146,7 +147,7 @@ const Listing = () => {
           {/* Brand Filter */}
           <div className="mb-6">
             <h5 className="text-md font-medium mb-2 text-gray-700">Brand</h5>
-            {Array.isArray(brands) && brands.map((brand, index) => (
+            {brands.map((brand, index) => (
               <label key={index} className="flex items-center space-x-2 mb-2">
                 <input
                   type="checkbox"
@@ -354,7 +355,7 @@ const Listing = () => {
             <p className="text-red-500">{error}</p>
           ) : (
             <div className="grid grid-cols-4 gap-4">
-              {filteredProducts.map((product) => {
+              {Array.isArray(filteredProducts) && filteredProducts.map((product) => {
                 const quantity = getQuantity(product._id);
                 return (
                   <div key={product._id} className="border rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 bg-white">

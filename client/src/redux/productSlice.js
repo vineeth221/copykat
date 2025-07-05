@@ -2,16 +2,15 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// Fetch products from the backend
 export const fetchProducts = createAsyncThunk('products/fetchProducts', async () => {
-  const response = await axios.get('http://localhost:8005/products'); // Ensure this URL is correct
-  return response.data; // Make sure this is an array of products
+  const response = await axios.get('http://localhost:8005/products');
+  return response.data; // This returns an array of products
 });
 
 const productSlice = createSlice({
   name: 'products',
   initialState: {
-    products: [],
+    products: [], // Initialize as empty array
     loading: false,
     error: null,
   },
@@ -23,11 +22,12 @@ const productSlice = createSlice({
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.loading = false;
-        state.products = action.payload.products; // Populate products
+        // FIX: Use action.payload directly (it's the array)
+        state.products = action.payload;
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message; // Handle error
+        state.error = action.error.message;
       });
   },
 });
