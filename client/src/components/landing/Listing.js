@@ -31,12 +31,13 @@ const Listing = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (products.length > 0) {
+    if (Array.isArray(products) && products.length > 0) {
       const uniqueBrands = [...new Set(products.map((product) => product.name))];
       setBrands(uniqueBrands);
       setFilteredProducts(products);
     }
   }, [products]);
+  
 
   useEffect(() => {
     let filtered = products;
@@ -145,7 +146,7 @@ const Listing = () => {
           {/* Brand Filter */}
           <div className="mb-6">
             <h5 className="text-md font-medium mb-2 text-gray-700">Brand</h5>
-            {brands.map((brand, index) => (
+            {Array.isArray(brands) && brands.map((brand, index) => (
               <label key={index} className="flex items-center space-x-2 mb-2">
                 <input
                   type="checkbox"
