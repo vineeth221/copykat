@@ -4,7 +4,7 @@ import axios from 'axios';
 
 // Fetch products from the backend
 export const fetchProducts = createAsyncThunk('products/fetchProducts', async () => {
-  const response = await axios.get('http://localhost:8005/products'); // Ensure this URL is correct
+  const response = await axios.get(`${process.env.REACT_APP_API_URL}/products`);
   return response.data; // Make sure this is an array of products
 });
 

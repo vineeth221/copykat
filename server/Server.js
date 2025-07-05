@@ -499,13 +499,14 @@ app.post('/login', async (req, res) => {
       token,
       user: {
         id: user._id,
-        name: user.name, // Ensure `name` exists in your Customer model
+        name: user.name,
         email: user.email,
         customer_id: user.customer_id,
       },
     });
   } catch (error) {
-    res.status(500).json({ message: 'Server error during login' });
+    console.error("🔴 Login API Error:", error); // ✅ Log the actual error
+    res.status(500).json({ message: 'Server error during login', error: error.message });
   }
 });
 

@@ -11,11 +11,15 @@ export default function Login() {
   const { login } = useContext(AuthContext);
 
   const handleLogin = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // ✅ First line — stop page reload
+  
+    console.log("Login button clicked"); // ✅ You should see this
+    console.log("Backend URL:", process.env.REACT_APP_API_URL);
+
     setErrorMessage("");
   
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -24,23 +28,19 @@ export default function Login() {
       const data = await response.json();
   
       if (response.ok) {
-  
-        // ✅ Store token & user details
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
-  
-        // ✅ Ensure login context is updated
         login(data.token, data.user);
-  
-        // ✅ Full page reload after login
-        window.location.href = "/home"; // Forces a full reload
+        window.location.href = "/home"; // ✅ force redirect
       } else {
         setErrorMessage(data.message || "Invalid email or password.");
       }
     } catch (error) {
+      console.error("Login error:", error);
       setErrorMessage("Server error. Please try again later.");
     }
   };
+  
   
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
@@ -50,7 +50,7 @@ export default function Login() {
 
         {errorMessage && <p className="text-red-600 text-sm mb-2">{errorMessage}</p>}
 
-        <form onSubmit={handleLogin}>
+        <form>
           <div className="mb-4">
             <label className="block text-sm font-medium">Email</label>
             <input
@@ -74,7 +74,7 @@ export default function Login() {
           </div>
 
           <button
-            type="submit"
+            onClick={handleLogin}
             className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-medium py-2 rounded-md"
           >
             Sign in
