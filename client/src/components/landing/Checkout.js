@@ -49,8 +49,7 @@ const Checkout = () => {
   // Fetch saved address from the backend
   const fetchSavedAddress = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/get-address/${user.email}`);
-
+      const response = await axios.get(`http://localhost:8005/get-address/${user.email}`);
       if (response.data.address) {
         const addr = response.data.address;
         setSavedAddress(addr);
@@ -168,14 +167,14 @@ useEffect(() => {
     if (!isAddressFilled()) return;
   
     try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/save-address`, {
+      await axios.post("http://localhost:8005/save-address", {
         email: user.email,
         addressLine1,
         addressLine2,
         city,
         state,
         pincode,
-      });      
+      });
   
       setAddressSaved(true);
       setIsEditing(false);
@@ -190,7 +189,7 @@ useEffect(() => {
 
   const handleUpdateAddress = async () => {
     try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/update-address`, {
+      await axios.put("http://localhost:8005/update-address", {
         email: user.email,
         addressLine1,
         addressLine2,
@@ -198,7 +197,6 @@ useEffect(() => {
         state,
         pincode,
       });
-      
 
       setAddressSaved(true);
       setIsEditing(false);
@@ -223,10 +221,10 @@ useEffect(() => {
 
     try {
       await axios.post(
-        `${process.env.REACT_APP_API_URL}/send-otp`,
+        "http://localhost:8005/send-otp",
         { email },
         { headers: { "Content-Type": "application/json" } }
-      );      
+      );
       setOtpSent(true);
     } catch (error) {
       console.error("Error sending OTP:", error);
