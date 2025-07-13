@@ -135,6 +135,56 @@
     color: #fff;
     
   }
+
+  .nav-set {
+    background: linear-gradient(#f9c597, #FFFFFF) !important;
+  }
+  
+  /* Height for desktop */
+  @media (min-width: 768px) {
+    .nav-set {
+      height: 75px;
+    }
+  }
+  
+  /* Height for mobile */
+  @media (max-width: 767px) {
+    .nav-set {
+      height: auto;
+      padding: 8px 0;
+    }
+  }
+  
+  /* Adjust space below navbar */
+  .set-height {
+    height: 75px; /* Default for desktop */
+  }
+  
+  @media (max-width: 767px) {
+    .set-height {
+      height: 170px; /* Adjust based on mobile navbar height */
+    }
+  }
+  
+  /* Search bar styling */
+  .search-bar {
+    min-width: 400px;
+  }
+  
+  /* Logo styling */
+  .custom-img {
+    height: 60px;
+    width: auto;
+  }
+  
+  /* Mobile search bar */
+  @media (max-width: 767px) {
+    .search-bar-mobile {
+      border: 1px solid #d1d5db;
+      border-radius: 0.5rem;
+      overflow: hidden;
+    }
+  }
   
   
   @media (max-width: 639px) {

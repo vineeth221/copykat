@@ -20,27 +20,33 @@ const Landing = () => {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 8, // Show 8 items on large screens
+    slidesToShow: 8, // Default for large screens (desktop)
     slidesToScroll: 2,
-    // nextArrow: <NextArrow />,
-    // prevArrow: <PrevArrow />,
     responsive: [
       {
-        breakpoint: 1024, // Medium screens (tablets)
+        breakpoint: 1024, // Tablets
         settings: {
           slidesToShow: 4,
           slidesToScroll: 2,
         },
       },
       {
-        breakpoint: 768, // Small screens (mobile)
+        breakpoint: 768, // Mobile devices
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 5, // ✅ Show 5 items on mobile
+          slidesToScroll: 2,
+        },
+      },
+      {
+        breakpoint: 480, // Very small mobile devices
+        settings: {
+          slidesToShow: 4,
           slidesToScroll: 1,
         },
       },
     ],
   };
+  
 
   return (
     <div className="bg-white py-6 px-4 overflow-hidden">
@@ -51,7 +57,7 @@ const Landing = () => {
               <img
                 src={category.image}
                 alt={category.name}
-                className="w-16 h-16 object-cover rounded-full mx-auto"
+                className="w-12 h-12 object-cover rounded-full mx-auto"
               />
               <h3 className="text-xs font-medium mt-1 group-hover:text-orange-500">
                 {category.name}

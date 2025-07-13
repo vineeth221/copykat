@@ -1,9 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Disclosure } from "@headlessui/react";
-import { MenuIcon, XIcon } from "@heroicons/react/outline";
-import { FiArrowRight, FiSearch, FiShoppingCart, FiChevronDown, FiMapPin, FiShoppingBag, FiTruck, FiLogOut } from "react-icons/fi";
-import { FaLocationArrow, FaCamera } from "react-icons/fa";
-import { Link, useLocation } from "react-router-dom"; // Import useLocation
+import { FiSearch, FiShoppingCart, FiChevronDown, FiMapPin, FiShoppingBag, FiTruck, FiLogOut } from "react-icons/fi";
+import { FaLocationArrow } from "react-icons/fa";
+import { Link, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { AuthContext } from "../../redux/AuthContext";
 import { removeFromCart } from "../../redux/CartSlice";
@@ -17,18 +16,16 @@ const navigation = [{ name: "watches", href: "/watches" }];
 export default function Navbar(props) {
   const { user, setUser, logout } = useContext(AuthContext);
   const [location, setLocation] = useState("Fetching location...");
-  const [sticky, setIsSticky] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [hover, setHover] = useState(false);
   const cartItems = useSelector((state) => state.cart.items);
   const cartItemsCount = cartItems.reduce((total, item) => total + item.quantity, 0);
-  const [searchResults, setSearchResults] = useState([]);
-  const [hover, setHover] = useState(false);
-  const [savedAddress, setSavedAddress] = useState(null);
   const dispatch = useDispatch();
-  const currentLocation = useLocation(); // Get the current route
-
-  // Check if the current route is the checkout page
+  const currentLocation = useLocation();
   const isCheckoutPage = currentLocation.pathname === "/checkout";
+
+  // Extract city from location string
+  const cityOnly = location.split(',')[0];
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -46,8 +43,8 @@ export default function Navbar(props) {
             const response = await axios.get(
               `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
             );
-            const { city, principalSubdivision, postcode } = response.data;
-            setLocation(`${city || "Unknown City"}, ${principalSubdivision || "Unknown State"}, ${postcode || "No Pincode"}`);
+            const { city } = response.data;
+            setLocation(city || "Unknown City");
           } catch (error) {
             setLocation("Unable to fetch location");
           }
@@ -74,32 +71,16 @@ export default function Navbar(props) {
         {({ open }) => (
           <>
             <div className="nav-set">
-              <div className="relative flex items-center justify-between">
-                {/* Mobile Menu Button (Hidden on Checkout Page) */}
-                {!isCheckoutPage && (
-                  <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-                    <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-                      <span className="sr-only">Open main menu</span>
-                      {open ? (
-                        <XIcon className="block h-6 w-6" aria-hidden="true" />
-                      ) : (
-                        <MenuIcon className="block h-6 w-6" aria-hidden="true" />
-                      )}
-                    </Disclosure.Button>
-                  </div>
-                )}
-
+              {/* Desktop/Tab Layout */}
+              <div className="hidden md:flex items-center justify-between">
                 <div className="nav-set flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-                  {/* Logo */}
                   <Link to="/home">
                     <div className="flex-shrink-0 flex items-center">
-                      <img className="block lg:hidden custom-img" src={neomart} alt="Workflow" />
                       <img className="hidden lg:block custom-img" src={neomart} alt="Workflow" />
                       <span className="srm">Zap ShopX</span>
                     </div>
                   </Link>
 
-                  {/* Location, Search, and User Menu (Hidden on Checkout Page) */}
                   {!isCheckoutPage && (
                     <>
                       <div id="nav-global-location-slot" className="text-gray-600 flex items-center space-x-4">
@@ -122,16 +103,6 @@ export default function Navbar(props) {
 
                       <div className="flex flex-col items-start justify-center relative">
                         <div className="flex items-center relative search-bar border border-gray-300 rounded-lg overflow-hidden">
-                          {/* Dropdown for product categories */}
-                          <div className="relative">
-                            <select className="h-full text-small product-btn">
-                              <option value="mens">Men's</option>
-                              <option value="womens">Women's</option>
-                              <option value="shoes">Shoes</option>
-                            </select>
-                          </div>
-
-                          {/* Search input */}
                           <input
                             type="text"
                             placeholder="What are you looking for?"
@@ -140,13 +111,6 @@ export default function Navbar(props) {
                             className="flex-1 px-4 py-2 focus:outline-none"
                             style={{ margin: "0 20px" }}
                           />
-
-                          {/* Camera icon for image search */}
-                          <button className="px-3 text-gray-600 hover:text-black" style={{ margin: "0 20px" }}>
-                            <FaCamera size={20} />
-                          </button>
-
-                          {/* Search button */}
                           <button className="text-white bg-[#ff6b00] search-btn px-4 py-2 font-semibold">
                             Search
                           </button>
@@ -172,8 +136,6 @@ export default function Navbar(props) {
                                   exit={{ opacity: 0, y: 8 }}
                                   className="absolute right-0 top-[calc(100%_+_10px)] border-orange-500 bg-[#f9f6f2] w-52 backdrop-blur-lg rounded-lg border shadow-lg p-3"
                                 >
-                                  <Bridge />
-                                  <Nub />
                                   <div className="space-y-1 border-orange-500">
                                     <Link to="/my-address" className="flex items-center px-4 py-2 text-sm text-gray-800 hover:bg-black/10 rounded-md">
                                       <FiMapPin className="mr-2 text-black" /> My Address
@@ -214,6 +176,36 @@ export default function Navbar(props) {
                     </>
                   )}
                 </div>
+              </div>
+
+              {/* Mobile Layout */}
+              <div className="md:hidden flex flex-col w-full py-2">
+                {/* Top Row - Logo */}
+                <div className="flex items-center justify-center w-full px-2">
+                  <Link to="/home" className="flex items-center">
+                    <img className="custom-img h-10" src={neomart} alt="Zap ShopX" />
+                    <span className="srm ml-2 text-xl">Zap ShopX</span>
+                  </Link>
+                </div>
+
+                {/* Bottom Row - Search and Location */}
+                {!isCheckoutPage && (
+                  <div className="flex flex-col w-full px-2 mt-2">
+                    <div className="flex items-center w-full">
+                      <input
+                        type="text"
+                        placeholder="What are you looking for?"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent shadow-sm transition-all duration-200 text-base placeholder-gray-500"
+                      />
+                    </div>
+                    <div className="flex items-center mt-2">
+                      <FaLocationArrow className="text-orange-500 mr-1" size={16} />
+                      <span className="text-base font-medium">{cityOnly}</span>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </>

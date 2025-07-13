@@ -28,30 +28,36 @@ const RecentViewsGrid = () => {
 
   return (
     <div className="p-6">
-      <div className="grid grid-cols-4 gap-4">
-        {sectionTitles.map((title, sectionIndex) => (
-          <div key={sectionIndex} className="border p-4 rounded-lg shadow-md bg-white">
-            <h2 className="text-lg font-semibold mb-2">{title}</h2>
-            <div className="grid grid-cols-2 gap-2">
-              {loading
-                ? Array(4)
-                    .fill()
-                    .map((_, index) => <Skeleton key={index} height={100} />)
-                : recentViews.map((product) => (
-                    <div key={product._id} className="min-w-[150px] p-2">
-                      <img
-                        src={product.imageUrl}
-                        alt={product.name}
-                        className="w-full h-[200px] object-cover rounded"
-                      />
-                      <p className="text-sm mt-2 text-center font-medium">{product.name}</p>
-                    </div>
-                  ))}
+  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+    {sectionTitles.map((title, sectionIndex) => (
+      <div key={sectionIndex} className="border p-4 rounded-lg shadow-md bg-white">
+        <h2 className="text-lg font-semibold mb-2">{title}</h2>
+        <div className="grid grid-cols-2 gap-2">
+          {loading
+            ? Array(4)
+                .fill()
+                .map((_, index) => <Skeleton key={index} height={100} />)
+            : recentViews.map((product) => (
+              <div key={product._id} className="p-1">
+              <div className="w-full aspect-[3/4] sm:aspect-[3/4] overflow-hidden rounded">
+                <img
+                  src={product.imageUrl}
+                  alt={product.name}
+                  className="w-full h-full object-cover rounded"
+                />
+              </div>
+              <p className="text-xs sm:text-sm mt-2 text-center font-medium truncate">
+                {product.name}
+              </p>
             </div>
-          </div>
-        ))}
+            
+              ))}
+        </div>
       </div>
-    </div>
+    ))}
+  </div>
+</div>
+
   );
 };
 
